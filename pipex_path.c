@@ -3,44 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrossett <jrossett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: teambersaw <teambersaw@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 11:01:33 by jrossett          #+#    #+#             */
-/*   Updated: 2022/02/04 15:05:54 by jrossett         ###   ########.fr       */
+/*   Updated: 2022/02/05 15:20:15 by teambersaw       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	*get_access(char **path, char *cmd)
+char	*get_path(char **envp, char *cmd)
 {
-	char	*str;
+	char	**env;
+	char	*path;
 	int		i;
 
+	i = 0;
+	while (ft_strnstr(envp[i], "PATH=", 5) == 0)
+		i++;
+	env = ft_split(envp[i] + 5, ':');
 	i = -1;
-	cmd = ft_strjoin("/", cmd);
-	while (path[++i])
+	while(env[++i])
 	{
-		str = ft_strjoin(path[i], cmd);
-		if (access(str, X_OK) == 0)
-			return (str);
-		printf("%s\n", str);
+		path = ft_strjoin(env[i], "/");
+		path = ft_strjoin(path, cmd);
+		if (access(path, X_OK | F_OK) == 0)
+			return (path);
 	}
-	perror("pas de path");
-	return (NULL);
-}
-
-char	**get_path(char **envp)
-{
-	char	*env;
-	char	**path;
-	int		i;
-
 	i = -1;
-	while (envp[++i])
-		if (ft_strnstr(envp[i], "PATH=", ft_strlen(envp[i])))
-			env = envp[i];
-	env += 5;
-	path = ft_split(env, ':');
-	return (path);
+	free(path);
+	while (env[++i])
+		free(env[i]);
+	free(env);
+	perror("error d'access");
+	return (NULL);
 }
