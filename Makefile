@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jrossett <jrossett@student.42.fr>          +#+  +:+       +#+         #
+#    By: teambersaw <teambersaw@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/03 13:55:08 by jrossett          #+#    #+#              #
-#    Updated: 2022/02/04 13:40:55 by jrossett         ###   ########.fr        #
+#    Updated: 2022/02/06 21:07:58 by teambersaw       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 SRCS = pipex.c pipex_path.c \
 
-OBJS = ${SRCS:.c=.o} 
+OBJS = ${SRCS:.c=.o}
 
 NAME = pipex
 
