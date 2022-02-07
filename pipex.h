@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: teambersaw <teambersaw@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jrossett <jrossett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:05:10 by jrossett          #+#    #+#             */
-/*   Updated: 2022/02/06 23:17:45 by teambersaw       ###   ########.fr       */
+/*   Updated: 2022/02/07 11:58:50 by jrossett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@
 # include <errno.h>
 # include <sys/types.h>
 # include <fcntl.h>
-#include <sys/wait.h>
+# include <sys/wait.h>
 # include "libft/libft.h"
 
 char	*get_path(char **envp, char *cmd);
 void	ft_free(char	**tab);
 int		ft_execute(char *cmd, char **envp);
-void	ft_fork(int fd1, int fd2, char **av, char **envp);
+int		ft_fork(int fd1, int fd2, char **av, char **envp);
+int		ft_child1(int *fd, int fd1, char **av, char **envp);
+int		ft_child2(int *fd, int fd2, char **av, char **envp);
 
 #endif

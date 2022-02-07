@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: teambersaw <teambersaw@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jrossett <jrossett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 12:21:02 by jrossett          #+#    #+#             */
-/*   Updated: 2021/12/03 19:56:40 by teambersaw       ###   ########.fr       */
+/*   Updated: 2022/02/07 11:30:21 by jrossett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void	ft_bzero(void *s, size_t n)
 	if (s)
 	{
 		while (n)
-			{
-				*str = '\0';
-				str++;
-				n--;
-			}
+		{
+			*str = '\0';
+			str++;
+			n--;
+		}
 	}
 }
