@@ -6,7 +6,7 @@
 /*   By: jrossett <jrossett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 11:01:33 by jrossett          #+#    #+#             */
-/*   Updated: 2022/02/07 12:24:00 by jrossett         ###   ########.fr       */
+/*   Updated: 2022/02/07 14:10:30 by jrossett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	ft_fork(int fd1, int fd2, char **av, char **envp)
 	if (pid == 0)
 		if (ft_child1(fd, fd1, av, envp) == -1)
 			return (-1);
-	wait(NULL);
 	pid2 = fork();
 	if (pid2 < 0)
 		return (-1);
@@ -61,6 +60,7 @@ int	ft_fork(int fd1, int fd2, char **av, char **envp)
 			return (-1);
 	close(fd[0]);
 	close(fd[1]);
+	wait(NULL);
 	wait(NULL);
 	return (0);
 }
@@ -95,7 +95,10 @@ char	*get_path(char **envp, char *cmd)
 		path = ft_strjoin(tmp, cmd);
 		free(tmp);
 		if (access(path, X_OK | F_OK) == 0)
+		{
+			ft_free(env);
 			return (path);
+		}
 		free(path);
 	}
 	i = -1;
