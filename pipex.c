@@ -6,7 +6,7 @@
 /*   By: jrossett <jrossett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:04:54 by jrossett          #+#    #+#             */
-/*   Updated: 2022/02/07 14:14:55 by jrossett         ###   ########.fr       */
+/*   Updated: 2022/02/09 14:34:49 by jrossett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	main(int ac, char **av, char **envp)
 	int	fd2;
 
 	if (ac != 5)
-		return (0);
+		return (1);
 	fd1 = open(av[1], O_RDONLY);
 	if (fd1 == -1)
 	{
