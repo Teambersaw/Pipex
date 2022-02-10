@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrossett <jrossett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: teambersaw <teambersaw@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 11:01:33 by jrossett          #+#    #+#             */
-/*   Updated: 2022/02/10 16:52:34 by jrossett         ###   ########.fr       */
+/*   Updated: 2022/02/10 23:02:22 by teambersaw       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,23 +77,32 @@ int	ft_fork(char **av, char **envp)
 	return (0);
 }
 
-void	ft_free(char	**tab)
+char	*ft_free(char	**tab, char	*str)
 {
 	int	i;
 
 	i = -1;
-	if (!tab)
-		return ;
-	while (tab[++i])
-		free(tab[i]);
-	free(tab);
+	if (str)
+		free(str);
+	if (tab)
+	{
+		while (tab[++i])
+			free(tab[i]);
+		free(tab);
+	}
+	return (NULL);
+}
+
+void	ft_norme()
+{
+	char	*tmp;
+
 }
 
 char	*get_path(char **envp, char *cmd)
 {
 	char	**env;
 	char	*path;
-	char	*tmp;
 	int		i;
 
 	i = 0;
@@ -107,27 +116,20 @@ char	*get_path(char **envp, char *cmd)
 	i = -1;
 	while (env[++i])
 	{
+		ft_norme();
 		tmp = ft_strjoin(env[i], "/");
 		if (!tmp)
-		{
-			ft_free(env);
-			return (NULL);
-		}
+			return (ft_free(env, NULL));
 		path = ft_strjoin(tmp, cmd);
 		if (!path)
-		{
-			free(tmp);
-			ft_free(env);
-			return (NULL);
-		}
+			return (ft_free(env, tmp));
 		free(tmp);
 		if (access(path, X_OK) == 0)
 		{
-			ft_free(env);
+			ft_free(env, NULL);
 			return (path);
 		}
 		free(path);
 	}
-	ft_free(env);
-	return (NULL);
+	return (ft_free(env, NULL));
 }

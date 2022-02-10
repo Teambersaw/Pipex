@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrossett <jrossett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: teambersaw <teambersaw@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:04:54 by jrossett          #+#    #+#             */
-/*   Updated: 2022/02/10 16:52:53 by jrossett         ###   ########.fr       */
+/*   Updated: 2022/02/10 19:25:50 by teambersaw       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_execute(char *cmd, char **envp, int fd)
 	path = get_path(envp, s_cmd[0]);
 	if (path == NULL)
 	{
-		ft_free(s_cmd);
+		ft_free(s_cmd, NULL);
 		return (-1);
 	}
 	if (execve(path, s_cmd, envp) == -1)
