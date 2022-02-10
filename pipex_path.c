@@ -6,39 +6,51 @@
 /*   By: jrossett <jrossett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 11:01:33 by jrossett          #+#    #+#             */
-/*   Updated: 2022/02/07 14:10:30 by jrossett         ###   ########.fr       */
+/*   Updated: 2022/02/10 16:52:34 by jrossett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	ft_child1(int *fd, int fd1, char **av, char **envp)
+int	ft_child1(int *fd, char **av, char **envp)
 {
+	int	infile;
+
 	close(fd[0]);
-	if (dup2(fd1, STDIN_FILENO) == -1)
-		return (-1);
+	infile = open(av[1], O_RDONLY);
+	if (infile == -1)
+		ft_error("Open infile", infile);
+	if (dup2(infile, STDIN_FILENO) == -1)
+		ft_error("dup2 infile failed", infile);
 	if (dup2(fd[1], STDOUT_FILENO) == -1)
-		return (-1);
-	if (ft_execute(av[2], envp) == -1)
-		return (-1);
+		ft_error("dup2 cmd1 failed", infile);
+	if (ft_execute(av[2], envp, infile) == -1)
+		ft_error("command 1 not found", infile);
+	close(infile);
 	close(fd[1]);
 	return (0);
 }
 
-int	ft_child2(int *fd, int fd2, char **av, char **envp)
+int	ft_child2(int *fd, char **av, char **envp)
 {
+	int	outfile;
+
 	close(fd[1]);
-	if (dup2(fd2, STDOUT_FILENO) == -1)
-		return (-1);
+	outfile = open(av[4], O_CREAT | O_RDWR | O_TRUNC, 0664);
+	if (outfile == -1)
+		ft_error("Open outfile", outfile);
+	if (dup2(outfile, STDOUT_FILENO) == -1)
+		ft_error("dup2 outfile failed", outfile);
 	if (dup2(fd[0], STDIN_FILENO) == -1)
-		return (-1);
-	if (ft_execute(av[3], envp) == -1)
-		return (-1);
+		ft_error("dup2 cmd2 failed", outfile);
+	if (ft_execute(av[3], envp, outfile) == -1)
+		ft_error("command 2 not found", outfile);
+	close(outfile);
 	close(fd[0]);
 	return (0);
 }
 
-int	ft_fork(int fd1, int fd2, char **av, char **envp)
+int	ft_fork(char **av, char **envp)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -50,13 +62,13 @@ int	ft_fork(int fd1, int fd2, char **av, char **envp)
 	if (pid == -1)
 		return (-1);
 	if (pid == 0)
-		if (ft_child1(fd, fd1, av, envp) == -1)
+		if (ft_child1(fd, av, envp) != 0)
 			return (-1);
 	pid2 = fork();
 	if (pid2 < 0)
 		return (-1);
 	if (pid2 == 0)
-		if (ft_child2(fd, fd2, av, envp) == -1)
+		if (ft_child2(fd, av, envp) != 0)
 			return (-1);
 	close(fd[0]);
 	close(fd[1]);
@@ -85,23 +97,37 @@ char	*get_path(char **envp, char *cmd)
 	int		i;
 
 	i = 0;
+	if (access(cmd, X_OK) == 0)
+		return (cmd);
 	while (ft_strnstr(envp[i], "PATH=", 5) == 0)
 		i++;
 	env = ft_split(envp[i] + 5, ':');
+	if (!env)
+		return (NULL);
 	i = -1;
 	while (env[++i])
 	{
 		tmp = ft_strjoin(env[i], "/");
+		if (!tmp)
+		{
+			ft_free(env);
+			return (NULL);
+		}
 		path = ft_strjoin(tmp, cmd);
+		if (!path)
+		{
+			free(tmp);
+			ft_free(env);
+			return (NULL);
+		}
 		free(tmp);
-		if (access(path, X_OK | F_OK) == 0)
+		if (access(path, X_OK) == 0)
 		{
 			ft_free(env);
 			return (path);
 		}
 		free(path);
 	}
-	i = -1;
 	ft_free(env);
 	return (NULL);
 }
