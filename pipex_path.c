@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrossett <jrossett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: teambersaw <teambersaw@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 11:01:33 by jrossett          #+#    #+#             */
-/*   Updated: 2022/02/11 12:39:32 by jrossett         ###   ########.fr       */
+/*   Updated: 2022/02/11 18:49:26 by teambersaw       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,10 @@ char	*get_path(char **envp, char *cmd)
 	i = 0;
 	if (access(cmd, X_OK) == 0)
 		return (cmd);
-	while (ft_strnstr(envp[i], "PATH=", 5) == 0)
+	while (envp[i] && ft_strnstr(envp[i], "PATH=", 5) == 0)
 		i++;
+	if (envp[i] == NULL)
+		return (NULL);
 	env = ft_split(envp[i] + 5, ':');
 	if (!env)
 		return (NULL);

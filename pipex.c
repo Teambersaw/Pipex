@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrossett <jrossett@student.42.fr>          +#+  +:+       +#+        */
+/*   By: teambersaw <teambersaw@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:04:54 by jrossett          #+#    #+#             */
-/*   Updated: 2022/02/11 12:39:37 by jrossett         ###   ########.fr       */
+/*   Updated: 2022/02/11 18:44:35 by teambersaw       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,11 @@ int	main(int ac, char **av, char **envp)
 	if (ac != 5)
 	{
 		write(2, "Wrong number of arguments\n", 26);
+		return (1);
+	}
+	if (!envp)
+	{
+		write(2, "There is no environment\n", 24);
 		return (1);
 	}
 	if (ft_fork(av, envp) == -1)
