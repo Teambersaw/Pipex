@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: teambersaw <teambersaw@student.42.fr>      +#+  +:+       +#+        */
+/*   By: jrossett <jrossett@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:04:54 by jrossett          #+#    #+#             */
-/*   Updated: 2022/02/10 19:25:50 by teambersaw       ###   ########.fr       */
+/*   Updated: 2022/02/11 12:39:37 by jrossett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+char	*ft_free(char	**tab, char	*str)
+{
+	int	i;
+
+	i = -1;
+	if (str)
+		free(str);
+	if (tab)
+	{
+		while (tab[++i])
+			free(tab[i]);
+		free(tab);
+	}
+	return (NULL);
+}
 
 void	ft_error(char	*str, int fd)
 {
