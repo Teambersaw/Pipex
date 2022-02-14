@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: teambersaw <teambersaw@student.42.fr>      +#+  +:+       +#+         #
+#    By: jrossett <jrossett@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/03 13:55:08 by jrossett          #+#    #+#              #
-#    Updated: 2022/02/06 21:07:58 by teambersaw       ###   ########.fr        #
+#    Updated: 2022/02/14 10:13:19 by jrossett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
